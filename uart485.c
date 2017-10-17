@@ -88,24 +88,21 @@ int uart_read_tobuf(unsigned char *buf){
 void start_timer_tx(void) {
     // TX TIME!
     uart_flags |= _BV(TX_TIME);
-    TCNT0 = 255 - 11;
-    TIMSK0 |= _BV(TOIE0); //Enable iterrupt
-    TCCR0B = _BV(CS02); // CLK/256
+    OCR0B = (uint8_t)TCNT0 + 3;
+    TIMSK0 |= _BV(OCIE0B); //Enable iterrupt
 }
 
 void start_timer_rx(void) {
     //RX time
     uart_flags &= ~_BV(TX_TIME);
-    TCNT0 = 0;
-    TIMSK0 |= _BV(TOIE0); //Enable iterrupt
-    TCCR0B = _BV(CS02); // CLK/256
+    OCR0B = (uint8_t)TCNT0 - 3;
+    TIMSK0 |= _BV(OCIE0B); //Enable iterrupt
 }
 void stop_timer(void) {
-    TIMSK0 &= ~_BV(TOIE0); // Disable iterrupt
-    TCCR0B = ~(_BV(CS00)|_BV(CS01)|_BV(CS02)); //STOP timer
+    TIMSK0 &= ~_BV(OCIE0B); // Disable iterrupt
 }
 
-ISR(TIMER0_OVF_vect) {
+ISR(TIMER0_COMPB_vect) {
     if (uart_flags & _BV(TX_TIME)) {
         if (uart_flags & _BV(RX_ERROR)){ // Ответ об ошибке
             stop_timer();

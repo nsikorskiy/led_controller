@@ -4,6 +4,16 @@
 #include <string.h>
 #include  <avr/pgmspace.h>
 
+
+int8_t date_api(unsigned char *in, int8_t in_size, unsigned char *out, int8_t type) {
+    if (type) {  //1 set , 0 get
+
+    } else {
+
+    }
+}
+
+
 int8_t api_set(unsigned char *in, int8_t in_size, unsigned char *out) {
     strcpy_P(out, PSTR("SET!\r"));
     return 5;
