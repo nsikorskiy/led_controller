@@ -2,26 +2,37 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include  <avr/pgmspace.h>
+#include <avr/pgmspace.h>
+#include "ds3231.h"
 
+int8_t ret;
 
-int8_t date_api(unsigned char *in, int8_t in_size, unsigned char *out, int8_t type) {
-    if (type) {  //1 set , 0 get
-
-    } else {
-
-    }
+int8_t cmp_data(unsigned char *in) {
+    return strncmp_P(in+4, PSTR("DATE "), 5);
 }
 
+int8_t get_date(unsigned char *in, int8_t in_size, unsigned char *out) {
+    if (cmp_data(in) == 0) {
+    }
+    return 0;
+}
+
+int8_t set_date(unsigned char *in, int8_t in_size, unsigned char *out) {
+    if (cmp_data(in) == 0) {
+    }
+    return 0;
+}
 
 int8_t api_set(unsigned char *in, int8_t in_size, unsigned char *out) {
-    strcpy_P(out, PSTR("SET!\r"));
-    return 5;
+    ret = set_date(in, in_size, out);
+    if (ret) return ret;
+    return 0;
 }
 
 int8_t api_get(unsigned char *in, int8_t in_size, unsigned char *out) {
-    strcpy_P(out, PSTR("GET!\r"));
-    return 5;
+    ret = get_date(in, in_size, out);
+    if (ret) return ret;
+    return 0;
 }
 
 int8_t api_echo(unsigned char *in, int8_t in_size, unsigned char *out) {
