@@ -56,7 +56,9 @@ int uart_init() {
     return 0;
 }
 
-int uart_write(char *buf, size_t size){
+int uart_write(char *buf, uint8_t size){
+    if (size == 0 ) return 1;
+
     while ((uart_flags & _BV(TX_IN_PROGRESS)) || (uart_flags & _BV(TX_BUFFER_READY))) {
         sleep_mode();
     }

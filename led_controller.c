@@ -24,36 +24,13 @@ void Restore() {
 }
 
 
-char buffer[64];
-int8_t api_in_size=0;
-int8_t api_out_size=0;
-
-char dbg[12] = {'A','P','I',' ','R','E','T',' ','N','N','N','\r'};
-char dbg_n[3];
-char t = 'B';
 
 int main() {
     Init();
     Setup();
     Restore();
     while (1) {
-        api_in_size = uart_read_size();
-        if (api_in_size != 0) {
-            uart_read_tobuf(buffer);
-            api_out_size = api(buffer, api_in_size, buffer);
-            dbg_n[0] = ' ';
-            dbg_n[1] = ' ';
-            dbg_n[2] = ' ';
-            utoa(sizeof(t), dbg_n, 10);
-            dbg[8] = dbg_n[0];
-            dbg[9] = dbg_n[1];
-            dbg[10] = dbg_n[2];
-            uart_write(dbg, 12);
-            if (api_out_size != 0){
-                uart_write(buffer, api_out_size);
-            }
-        }
-
+        api();
     }
     return 0;
 }
