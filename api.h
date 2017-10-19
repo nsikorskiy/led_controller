@@ -2,4 +2,4 @@
 
 
 
-int8_t api(unsigned char *in, int8_t size, unsigned char *out);
+int8_t api( char *in, int8_t size,  char *out);

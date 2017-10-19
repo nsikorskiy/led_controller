@@ -9,8 +9,8 @@
 #define UART_F 38400L
 #define UART_UBRR0 (F_CPU / (16 * UART_F)) - 1
 
-unsigned char uart_tx_buffer[UART_TX_BUFFER_SIZE];
-unsigned char uart_rx_buffer[UART_RX_BUFFER_SIZE];
+char uart_tx_buffer[UART_TX_BUFFER_SIZE];
+char uart_rx_buffer[UART_RX_BUFFER_SIZE];
 int8_t uart_tx_buffer_index = 0;
 int8_t uart_rx_buffer_index = 0;
 
@@ -56,7 +56,7 @@ int uart_init() {
     return 0;
 }
 
-int uart_write(unsigned char *buf, int8_t size){
+int uart_write(char *buf, size_t size){
     while ((uart_flags & _BV(TX_IN_PROGRESS)) || (uart_flags & _BV(TX_BUFFER_READY))) {
         sleep_mode();
     }
@@ -77,7 +77,7 @@ int uart_read_size(void) {
     return 0;
 }
 
-int uart_read_tobuf(unsigned char *buf){
+int uart_read_tobuf(char *buf){
     memcpy(buf, uart_rx_buffer, uart_rx_buffer_index+1);
     ATOMIC_BLOCK(ATOMIC_FORCEON){
         uart_flags &= ~_BV(RX_BUFFER_READY);
@@ -107,7 +107,7 @@ ISR(TIMER0_COMPB_vect) {
         if (uart_flags & _BV(RX_ERROR)){ // Ответ об ошибке
             stop_timer();
             UART_485_TRANSMIT_PORT |= _BV(UART_485_TRANSMIT_PORT_PIN); // set tx in rs485
-            UDR0 = (unsigned char) 'E'; //первый символ ошибки
+            UDR0 = 'E'; //первый символ ошибки
             UCSR0B |= _BV(UDRIE0);
         } else {
             if (uart_flags & _BV(TX_PING) ) { //ping
@@ -115,7 +115,7 @@ ISR(TIMER0_COMPB_vect) {
                 UART_485_TRANSMIT_PORT |= _BV(UART_485_TRANSMIT_PORT_PIN); // set tx in rs485
                 uart_flags &= ~_BV(TX_TIME);
                 uart_flags &= ~_BV(TX_PING);
-                UDR0 = (unsigned char) UART_485_NL;
+                UDR0 = UART_485_NL;
                 UCSR0B |= _BV(TXCIE0); // отправляем один байт, значит нам не нужно UDRIE0
             } else {
                 if (uart_flags & _BV(TX_BUFFER_READY)){ //cарт предачи буфера
@@ -133,7 +133,7 @@ ISR(TIMER0_COMPB_vect) {
 
 ISR(USART_RX_vect) {
     // load data
-    unsigned char c = UDR0;
+    char c = UDR0;
     // check uart errors
     if (UCSR0A & (_BV(FE0)|_BV(DOR0)|_BV(UPE0))) {
         //drop
@@ -189,7 +189,7 @@ ISR(USART_UDRE_vect) {
             //    break;
             case(1):
                 uart_errors = uart_errors - 1; // декрементим бит
-                UDR0 = (unsigned char) (uart_errors + CHAR_N);
+                UDR0 = (char) (uart_errors + CHAR_N);
                 break;
             case(0):
                 UDR0 = UART_485_NL;

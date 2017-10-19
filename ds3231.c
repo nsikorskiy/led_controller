@@ -25,5 +25,4 @@ void API_RTCDateSet(
         int16_t tm_year  /**< years since 1900 */
         ) {
 
-    return 0;
 }

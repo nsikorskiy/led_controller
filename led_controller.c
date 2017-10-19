@@ -24,12 +24,13 @@ void Restore() {
 }
 
 
-unsigned char buffer[64];
+char buffer[64];
 int8_t api_in_size=0;
 int8_t api_out_size=0;
 
-unsigned char dbg[12] = {'A','P','I',' ','R','E','T',' ','N','N','N','\r'};
-unsigned char dbg_n[3];
+char dbg[12] = {'A','P','I',' ','R','E','T',' ','N','N','N','\r'};
+char dbg_n[3];
+char t = 'B';
 
 int main() {
     Init();
@@ -43,7 +44,7 @@ int main() {
             dbg_n[0] = ' ';
             dbg_n[1] = ' ';
             dbg_n[2] = ' ';
-            utoa(sizeof("L"), dbg_n, 10);
+            utoa(sizeof(t), dbg_n, 10);
             dbg[8] = dbg_n[0];
             dbg[9] = dbg_n[1];
             dbg[10] = dbg_n[2];

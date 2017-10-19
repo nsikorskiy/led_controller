@@ -10,6 +10,6 @@
 #define UART_485_NL '\r' // \r for proteus \n for normal system
 
 int uart_init();
-int uart_write(unsigned char *buf, int8_t size);
+int uart_write(char *buf, size_t size);
 int uart_read_size(void);
-int uart_read_tobuf(unsigned char *buf);
+int uart_read_tobuf(char *buf);
