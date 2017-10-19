@@ -15,7 +15,7 @@ OBJECTS    = led_controller.o twi.o uart485.o api.o ds3231.o
 #COMPILE = avr-gcc -gdwarf-2 -gpubnames -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE)
 COMPILE = avr-gcc -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE)
 
-all:led_controller.hex
+all:led_controller.hex mem_usage
 
 .c.o:
 		$(COMPILE) -c $< -o $@
@@ -40,6 +40,6 @@ led_controller.elf: $(OBJECTS)
 led_controller.hex: led_controller.elf
 		rm -f led_controller.hex
 		avr-objcopy -j .text -j .data -O ihex led_controller.elf led_controller.hex
+
+mem_usage: led_controller.elf
 		avr-size --format=avr --mcu=$(DEVICE) led_controller.elf
-
-
