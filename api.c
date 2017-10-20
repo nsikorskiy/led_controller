@@ -18,13 +18,11 @@ int8_t cmd_ERROR(void) {
 
 
 int8_t api_get_date(void) {
-    strcpy_P(api_buffer, PSTR("martobr 18\r"));
-    return 11;
+    return API_RTCDateGet(api_buffer);
 }
 
 int8_t api_set_date(uint8_t offset) {
-    strcpy_P(api_buffer, PSTR("OK\r"));
-    return 3;
+    return API_RTCDateSet(api_buffer, offset);
 }
 
 
