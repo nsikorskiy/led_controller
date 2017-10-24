@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <avr/pgmspace.h>
-#include "ds3231.h"
-#include "uart485.h"
+#include "libs/ds3231.h"
+#include "libs/uart485.h"
 
 char api_buffer[64];
 int8_t input_size = 0;

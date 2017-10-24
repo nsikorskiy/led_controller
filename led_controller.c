@@ -4,8 +4,8 @@
 #include <avr/sleep.h>
 #include <avr/io.h>
 #include "led_controller.h"
-#include "twi.h"
-#include "uart485.h"
+#include "libs/twi.h"
+#include "libs/uart485.h"
 #include "api.h"
 
 void Init() {
