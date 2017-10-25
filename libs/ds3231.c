@@ -27,7 +27,7 @@ uint8_t char2bcd(char *buf) {
     return s | m;
 }
 
-uint8_t API_RTCDateGet(char *out) {
+uint8_t api_rtcdate_get(char *out) {
     #define RTC_TIME_READ_SIZE 7
     uint8_t data[RTC_TIME_READ_SIZE];
     uint8_t ret = RTC_SECONDS; // чтоб не выделять пременную сохраним адрес тут и передадим адрес пременной
@@ -53,7 +53,7 @@ uint8_t API_RTCDateGet(char *out) {
     return 29;
 }
 
-uint8_t API_RTCDateSet(char *in, uint8_t offset){
+uint8_t api_rtcdate_set(char *in, uint8_t offset){
     #define RTC_TIME_WRITE_SIZE 8
     uint8_t data[RTC_TIME_WRITE_SIZE];
     uint8_t ret;

@@ -10,7 +10,7 @@ char api_buffer[64];
 int8_t input_size = 0;
 int8_t ret = 0;
 
-int8_t cmd_ERROR(void) {
+int8_t cmd_error(void) {
     strcpy_P(api_buffer, PSTR("CMD ERR\r"));
     return 8;
 }
@@ -18,11 +18,11 @@ int8_t cmd_ERROR(void) {
 
 
 int8_t api_get_date(void) {
-    return API_RTCDateGet(api_buffer);
+    return api_rtcdate_get(api_buffer);
 }
 
 int8_t api_set_date(uint8_t offset) {
-    return API_RTCDateSet(api_buffer, offset);
+    return api_rtcdate_set(api_buffer, offset);
 }
 
 
@@ -47,7 +47,7 @@ int8_t cmd_parser(void) {
         return api_get_date();
     }
 
-    return cmd_ERROR();
+    return cmd_error();
 }
 
 void api(void) {

@@ -62,5 +62,5 @@
 #define DYDT 6 //Day/Date flag bit in alarm Day/Date registers
 
 
-uint8_t API_RTCDateGet(char *out);
-uint8_t API_RTCDateSet(char *in, uint8_t offset);
+uint8_t api_rtcdate_get(char *out);
+uint8_t api_rtcdate_set(char *in, uint8_t offset);

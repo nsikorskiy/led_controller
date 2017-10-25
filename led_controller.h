@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <avr/pgmspace.h>
 
-
+/*
 enum switches {
     SW0,
     SW1,
@@ -120,3 +120,5 @@ const struct Switch SwitchesConf[SWITCH_COUNT] PROGMEM = {
 volatile uint16_t Pwm_modes[SWITCH_COUNT][PWM_MODE_COUNT];
 volatile struct SwitchState Switches_state[SWITCH_COUNT];
 volatile struct HWSwitch HWSwitches_state[HW_SWITCH_COUNT];
+
+*/

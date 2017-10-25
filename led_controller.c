@@ -7,6 +7,7 @@
 #include "libs/twi.h"
 #include "libs/uart485.h"
 #include "api.h"
+#include "hwswitches.h"
 
 void Init() {
     set_sleep_mode(SLEEP_MODE_IDLE); //Сон для остановки при отправке в uart
@@ -17,6 +18,7 @@ void Init() {
 void Setup() {
     uart_init();
     twi_init();
+    hwswitch_init();
     sei();
 }
 
