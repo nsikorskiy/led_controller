@@ -36,7 +36,8 @@ volatile uint8_t hwswitch_flag;
 struct HWSwitch {
     uint8_t state;
     uint8_t shift_bits;
-    uint8_t off_time;
+    uint8_t state_time;
 };
 
 volatile struct HWSwitch hwswitches[HW_SW_COUNT];
+void scan_keys(void);

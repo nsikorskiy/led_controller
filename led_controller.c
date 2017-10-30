@@ -25,14 +25,39 @@ void Setup() {
 void Restore() {
 }
 
-
+void tt(char *t) {
+    t[0] = ' ';
+    t[1] = ' '; 
+}
 
 int main() {
     Init();
     Setup();
     Restore();
+    char n[3];
+    char c[] = "SW NN STATE: N\r";
     while (1) {
         api();
+        scan_keys();
+
+        if (hwswitch_flag) {
+            hwswitch_flag = 0;
+            for (uint8_t i=0; i<HW_SW_COUNT; i++){
+                if (hwswitches[i].state > 2){
+                    hwswitches[i].state &= ~_BV(7);
+                    tt(n);
+                    itoa(i, n, 10);
+                    c[3] = n[0];
+                    c[4] = n[1];
+                    tt(n);
+                    itoa(hwswitches[i].state, n, 10);
+                    c[13] = n[0];
+                    uart_write(c, 15);
+                }
+            }
+        }
+
+        //sleep_mode();
     }
     return 0;
 }

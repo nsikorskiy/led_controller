@@ -1,5 +1,5 @@
 #include "hwswitches.h"
-
+#include <avr/interrupt.h>
 
 /*
  *  0  1  2  3
@@ -16,6 +16,7 @@ void hwswitch_init(void) {
 }
 
 
+
 void scan_keys(void) {
     uint8_t pin = 0;
     int hwswitch_num = 0;
@@ -28,13 +29,23 @@ void scan_keys(void) {
             //читаем состояние строки
             pin = HW_SW_ROW_PORT & _BV(row);
             if (pin) {
-                hwswitches[hwswitch_num].shift_bits << 1;
+                hwswitches[hwswitch_num].shift_bits <<= 1;
                 hwswitches[hwswitch_num].shift_bits |= _BV(0);
             } else {
-                hwswitches[hwswitch_num].shift_bits << 1;
+                hwswitches[hwswitch_num].shift_bits <<= 1;
             }
             //sate chek
-            
+            if ((hwswitches[hwswitch_num].shift_bits == 0) && (hwswitches[hwswitch_num].state == 1)) {
+                hwswitches[hwswitch_num].state = _BV(7);
+                hwswitches[hwswitch_num].state_time = 0xFF;
+                hwswitch_flag |= HW_SW_INTR;
+            }
+
+            if ((hwswitches[hwswitch_num].shift_bits == 0xFF) && (hwswitches[hwswitch_num].state == 0)) {
+                hwswitches[hwswitch_num].state = _BV(7) | _BV(0);
+                hwswitches[hwswitch_num].state_time = 0xFF;
+                hwswitch_flag |= HW_SW_INTR;
+            }
 
 
             hwswitch_num++;
