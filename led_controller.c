@@ -11,8 +11,9 @@
 
 void Init() {
     set_sleep_mode(SLEEP_MODE_IDLE); //Сон для остановки при отправке в uart
-    TCCR0B = _BV(CS02); // CLK/256 таймер для uart
+    TCCR0B = _BV(CS01); // CLK/8 таймер для uart и HW свичей
     // регистр сравнениея B используется для прерываний
+    // переполнение используется для отсчёта времени опроса кнопок
 }
 
 void Setup() {
@@ -38,13 +39,14 @@ int main() {
     char c[] = "SW NN STATE: N\r";
     while (1) {
         api();
-        scan_keys();
+        hwswitch_scan_keys();
+        hwswitch_dec_time_switches();
 
-        if (hwswitch_flag) {
-            hwswitch_flag = 0;
+        if (hwswitch_flag & HW_SW_INTR ) {
+            hwswitch_flag &= ~HW_SW_INTR;
             for (uint8_t i=0; i<HW_SW_COUNT; i++){
-                if (hwswitches[i].state > 2){
-                    hwswitches[i].state &= ~_BV(7);
+                if (hwswitches[i].state & HW_SW_N_INTR){
+                    hwswitches[i].state &= ~HW_SW_N_INTR;
                     tt(n);
                     itoa(i, n, 10);
                     c[3] = n[0];
@@ -57,7 +59,7 @@ int main() {
             }
         }
 
-        //sleep_mode();
+        sleep_mode();
     }
     return 0;
 }

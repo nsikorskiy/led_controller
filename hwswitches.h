@@ -8,6 +8,9 @@
  *
  */
 
+#ifndef L_HWSWITCHES_H
+#define L_HWSWITCHES_H
+
 
 #define HW_SW_COUNT 16
 #define HW_SW_ROW_COUNT 4
@@ -26,13 +29,21 @@ void hwswitch_init(void);
 
 #define HW_SW_FEEL _BV(7) // Флаг показывает, что после сключений прошёл полный
 // цикл наполнения регистров сдвига. Значит состояние актуальное.
+#define HW_SW_DEC  _BV(6) // Флаг показывает, что можно уменьшать счётчики
+#define HW_SW_READ _BV(5) // Флаг показывает, что можно проверять свичи
 #define HW_SW_INTR _BV(0) // Есть изменение состояния хардварных свичей
 volatile uint8_t hwswitch_flag;
+
+volatile uint8_t hwswitch_timer_dec;
+volatile uint8_t hwswitch_timer_read;
 
 // state бит 7 - флаг изменённости. бит 1 - flap, бит 0 - on/off
 // offtime декриментится после изменения, если при изменении 
 // статуса он не равен 0 то выставить flap
 
+#define HW_SW_N_FLAP _BV(1)
+#define HW_SW_N_ON _BV(0)
+#define HW_SW_N_INTR _BV(7)
 struct HWSwitch {
     uint8_t state;
     uint8_t shift_bits;
@@ -40,4 +51,7 @@ struct HWSwitch {
 };
 
 volatile struct HWSwitch hwswitches[HW_SW_COUNT];
-void scan_keys(void);
+void hwswitch_scan_keys(void);
+void hwswitch_dec_time_switches(void);
+
+#endif /* L_HWSWITCHES_H */
