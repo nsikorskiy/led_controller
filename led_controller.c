@@ -8,6 +8,7 @@
 #include "libs/uart485.h"
 #include "api.h"
 #include "hwswitches.h"
+#include "swstate.h"
 
 void Init() {
     set_sleep_mode(SLEEP_MODE_IDLE); //Сон для остановки при отправке в uart
@@ -42,7 +43,7 @@ int main() {
         hwswitch_scan_keys();
         hwswitch_dec_time_switches();
 
-        if (hwswitch_flag & HW_SW_INTR ) {
+        if (hwswitch_flag & (HW_SW_INTR | HW_SW_FEEL))  {
             hwswitch_flag &= ~HW_SW_INTR;
             for (uint8_t i=0; i<HW_SW_COUNT; i++){
                 if (hwswitches[i].state & HW_SW_N_INTR){

@@ -34,9 +34,6 @@ void hwswitch_init(void);
 #define HW_SW_INTR _BV(0) // Есть изменение состояния хардварных свичей
 volatile uint8_t hwswitch_flag;
 
-volatile uint8_t hwswitch_timer_dec;
-volatile uint8_t hwswitch_timer_read;
-
 // state бит 7 - флаг изменённости. бит 1 - flap, бит 0 - on/off
 // offtime декриментится после изменения, если при изменении 
 // статуса он не равен 0 то выставить flap

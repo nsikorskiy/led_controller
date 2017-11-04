@@ -25,7 +25,12 @@ void led_debug(void) {
     }
 }
 
+volatile uint8_t hwswitch_timer_dec = 0;
+volatile uint8_t hwswitch_timer_read = 0;
+volatile uint8_t hwswitch_first_run = 0;
+
 inline void hwswitch_timer(void) {
+
     // Хочу детект 2 секунды
     // частота T0 сейчас  16000000/256 = 62500
     // геристр для отсчёта 256
@@ -57,6 +62,13 @@ inline void hwswitch_timer(void) {
     } else {
         hwswitch_timer_read = 0;
         hwswitch_flag |= HW_SW_READ;
+        if (hwswitch_first_run < 8){
+            hwswitch_first_run++;
+        } 
+        if (hwswitch_first_run == 8) {
+            hwswitch_first_run++;
+            hwswitch_flag |= HW_SW_FEEL;
+        }
     }
     
 }
