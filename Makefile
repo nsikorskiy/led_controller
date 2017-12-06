@@ -10,7 +10,7 @@ AVRDUDE = /usr/share/arduino/hardware/tools/avrdude -C/usr/share/arduino/hardwar
 
 MINICOM = minicom -o   -D /dev/ttyACM0
 
-OBJECTS    = led_controller.o hwswitches.o api.o libs/twi.o libs/uart485.o libs/ds3231.o
+OBJECTS    = led_controller.o hwswitches.o api.o swstate.o libs/twi.o libs/uart485.o libs/ds3231.o
 
 #COMPILE = avr-gcc -gdwarf-2 -gpubnames -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE)
 COMPILE = avr-gcc -Wall -Os -DF_CPU=$(CLOCK) -mmcu=$(DEVICE)

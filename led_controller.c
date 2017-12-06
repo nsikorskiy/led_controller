@@ -42,7 +42,7 @@ int main() {
         api();
         hwswitch_scan_keys();
         hwswitch_dec_time_switches();
-
+        swstate_apply();
         if (hwswitch_flag & (HW_SW_INTR | HW_SW_FEEL))  {
             hwswitch_flag &= ~HW_SW_INTR;
             for (uint8_t i=0; i<HW_SW_COUNT; i++){
