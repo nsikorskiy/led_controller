@@ -17,16 +17,17 @@
 //
 
 void swstate_apply(void);
-
-#define SW_COUNT 3
+void swload_state(void);
 
 #define SW_HW_BIT    0
 #define SW_VIRT_BIT  1
 #define SW_ALT_BIT   2
 #define SW_NIGHT_BIT 3
 #define SW_ALARM_BIT 4
-#define SW_FLUSH_BIT 5
+#define SW_FLAP_BIT  5
 
+#define SW_UPDATE_FLAP 1
+#define SW_NOT_UPDATE_FLAP 0
 
 #define SW_TYPE_ONOFF   _BV(0)
 #define SW_TYPE_DIMM    _BV(1)
@@ -40,6 +41,7 @@ struct SWState {
     uint8_t out_n;
 };
 
+#define SW_COUNT 3
 volatile struct SWState swstates[SW_COUNT];
 
 #define SW_MAP_TYPE_MAIN 0
@@ -51,7 +53,7 @@ struct SWStateTOHWmap {
     uint8_t map_type;
 }; 
 
-#define SW_MAP_COUNT 3 //Нужно обновлять если меняется количество
+#define SW_MAP_COUNT 4 //Нужно обновлять если меняется количество
 struct SWStateTOHWmap swtohwmap[SW_MAP_COUNT];
 
 
