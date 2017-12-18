@@ -1,4 +1,5 @@
 #include <avr/io.h>
+#include <avr/pgmspace.h>
 
 #ifndef L_SWSTATE_H
 #define L_SWSTATE_H
@@ -25,6 +26,8 @@ void swload_state(void);
 #define SW_NIGHT_BIT 3
 #define SW_ALARM_BIT 4
 #define SW_FLAP_BIT  5
+//6 free
+#define SW_INTR      7
 
 #define SW_UPDATE_FLAP 1
 #define SW_NOT_UPDATE_FLAP 0
@@ -44,6 +47,7 @@ struct SWState {
 #define SW_COUNT 3
 volatile struct SWState swstates[SW_COUNT];
 
+
 #define SW_MAP_TYPE_MAIN 0
 #define SW_MAP_TYPE_ALT  1
 
@@ -56,5 +60,11 @@ struct SWStateTOHWmap {
 #define SW_MAP_COUNT 4 //Нужно обновлять если меняется количество
 struct SWStateTOHWmap swtohwmap[SW_MAP_COUNT];
 
+
+//API
+void swstate_api_list(char *buf);
+void swstate_api_get_status(char *buf, uint8_t sw_n);
+void swstate_api_set_status(uint8_t sw_n, uint8_t bit_n, uint8_t state);
+int swstate_save_state(uint8_t sw_n, uint8_t state);
 
 #endif /* L_SWSTATE_H */

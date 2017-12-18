@@ -1,3 +1,4 @@
+#include <avr/io.h>
 #include "hwswitches.h"
 #include "swstate.h"
 
@@ -17,11 +18,12 @@ struct SWStateTOHWmap swtohwmap[SW_MAP_COUNT] = {
 void swload_state(void) {
 }
 
-int save_state(uint8_t sw_n, uint8_t state) {
+int swstate_save_state(uint8_t sw_n, uint8_t state) {
     return 0;
 }
 
 void sw_set_state_from_hw(uint8_t sw_n, uint8_t hw_state, uint8_t state_bit, uint8_t set_flap) {
+    swstates[sw_n].state |= _BV(SW_INTR);
     if ((hw_state & HW_SW_N_ON) != HW_SW_N_ON) { //off
         swstates[sw_n].state &=~_BV(state_bit);
     }
@@ -35,7 +37,7 @@ void sw_set_state_from_hw(uint8_t sw_n, uint8_t hw_state, uint8_t state_bit, uin
             swstates[sw_n].state &= ~_BV(SW_FLAP_BIT);
         }
     }
-    save_state(sw_n, swstates[sw_n].state);
+    swstate_save_state(sw_n, swstates[sw_n].state);
 }
 
 void apply_hw(void) {
